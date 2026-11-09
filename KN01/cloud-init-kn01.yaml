@@ -1,0 +1,30 @@
+#cloud-config
+package_update: true # update packages
+
+packages: # list of packages to install
+  - fastfetch # tool to look at system specs
+  - tree # tool to look at file directories with sub directories
+  - vim # best text editor that is open source
+
+users: #List of users which get created at first boot
+  - default # default user of the vm
+  - name: diego # name of the user
+    sudo: ALL=(ALL) NOPASSWD:ALL # sudo rights
+    shell: /bin/bash # shell to use
+
+write_files: # list of files to write to
+  - path: /home/ubuntu/begruessung.txt # path to file
+    content:
+      | # list of content. content cant be commented but it's just the text that goes into the file
+      Diese Datei wurde von cloud-init erstellt. 
+      Niemand hat sie von Hand angelegt.
+  - path: /home/diego/info.txt # path to file
+    content:
+      | # list of content. content cant be commented but it's just the text that goes into the file
+      Name: Diego
+      Rechte: sudo
+      Lieblingsfarbe: Blau
+
+runcmd: # List of commands to run
+  - echo "Installation abgeschlossen am $(date)" >> /home/ubuntu/begruessung.txt # Sends current date with text into begruessung.txt file
+  - echo "Zugewisener RAM: $(free -h)" >> /home/diego/info.txt # sends current ram ussage as well as free ram into info.txt
