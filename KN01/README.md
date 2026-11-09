@@ -1,17 +1,31 @@
 # KN01
 
-## Dokumentation
+<!--toc:start-->
 
-### Aufgabe A
+- [KN01](#kn01)
+  - [Aufgabe A](#aufgabe-a)
+  - [Aufgabe B](#aufgabe-b)
+    - [Overcommitment](#overcommitment)
+    - [Erklärung](#erklärung)
+  - [Aufgabe C](#aufgabe-c)
+    - [Unteraufgabe 1](#unteraufgabe-1)
+    - [Unteraufgabe 2](#unteraufgabe-2)
+  - [Aufgabe D](#aufgabe-d)
+    - [Zusammenfassung](#zusammenfassung)
+  - [Lernziele](#lernziele)
+
+<!--toc:end-->
+
+## Aufgabe A
 
 - snap Installiert
 - Multipass über snap installiert
 - Multipass Funktioniert
 - Backend is quemu
 
-### Aufgabe B
+## Aufgabe B
 
-#### Overcommitment
+### Overcommitment
 
 Mein Backend ist quemu, da ich auf Arch Linux bin.
 Ich habe 16 cores und 32GB ram auf meinem Laptop:
@@ -27,7 +41,7 @@ Leider ging dies beim RAM nicht und ich bekam eine fehlermeldung als ich den ram
 
 ![Nachweis](./img/vm_ram_overcommit.png)
 
-#### Erklärung
+### Erklärung
 
 Die CPU lässt sich overcommiten, da es einfach nur threads sind
 und diese von Arch in keinem weg blockiert werden.
@@ -36,9 +50,9 @@ Beim Ram hingegen wird per default swap blokiert wodurch man nicht overcommiten 
 
 ![Nachweis](./img/vm_swap_status.png)
 
-### Aufgabe C
+## Aufgabe C
 
-#### Unteraufgabe 1
+### Unteraufgabe 1
 
 Ich konnte die vm mit dem Skript [claud-init-basis.yaml](./cloud-init-basis.yaml) instalieren und die programme sind alle erschienen.
 
@@ -52,7 +66,7 @@ Auch das log sah fehlerfrei aus.
 
 ![Nachweis](./img/log_output_claud_init.png)
 
-#### Unteraufgabe 2
+### Unteraufgabe 2
 
 Ich konnte die Datei [cloud-init-kn01.yaml](./cloud-init-kn01.yaml) erfolgreich anpassen und auch die überprüfung ging gut.
 
@@ -70,7 +84,7 @@ und hat auch die ergebnisse des ausgeführten command drinnen.
 
 ![Nachweis](./img/file_check.png)
 
-### Aufgabe D
+## Aufgabe D
 
 Das neu erstellen von der VM hat mir ganze 5 Minuten und 9 Sekunden gekostet.
 
@@ -80,7 +94,7 @@ Diese Zeit ist noch ohne die Creation von der VM und ich musste ein paar mal nac
 
 ![Nachweis](./img/stopped_time_script.png)
 
-#### Zusammenfassung
+### Zusammenfassung
 
 Die manuelle Kreation ist viel anstrengender als die automatisierte, da man alle commands immer wieder eingeben muss, bei Fehlern muss man diese debuggen und es wiederholt sich immer. Die automatisierte Erstellung ist hingegen viel schneller, da sie direkt beim erstellen alle Sachen ausführt. Der Zeitverbrauch ist auch sehr unterschiedlich bei den zwei arten. Beim manuellen wird die grösste zeit bei der ausführung der commands sein, was man immer wieder neu machen muss. In der automatisierten Variante verbringt man ein mal 5-10 Minuten ein script in yaml zu schreiben, welches dann unentlich oft wiederholen kann, wodurch es sich viel mehr lohnt wenn man 10+ VMs aufsetzten muss. Leider wird es schwierig wenn es eine Dynamische Aufgabe wird, bei welcher es je nach Hardware immer anderst ist.
 
