@@ -20,6 +20,7 @@ Ich habe 16 cores und 32GB ram auf meinem Laptop:
 
 eim Overcommitment von VMs kamen bei mir unterschiedliche Ergebnisse.
 Das CPU Overcommitment ging es und ich konnte eine 20 core cpu haben.
+
 ![Nachweis](./img/vm_cpu_overcommit.png)
 
 Leider ging dies beim RAM nicht und ich bekam eine fehlermeldung als ich den ram von 32 auf 36 erhöht habe-
