@@ -2,14 +2,14 @@
 
 ## Dokumentation
 
-### A
+### Aufgabe A
 
 - snap Installiert
 - Multipass über snap installiert
 - Multipass Funktioniert
 - Backend is quemu
 
-### B
+### Aufgabe B
 
 #### Overcommitment
 
@@ -35,9 +35,9 @@ Beim Ram hingegen wird per default swap blokiert wodurch man nicht overcommiten 
 
 ![Nachweis](./img/vm_swap_status.png)
 
-### C
+### Aufgabe C
 
-#### 1
+#### Unteraufgabe 1
 
 Ich konnte die vm mit dem Skript [claud-init-basis.yaml](./cloud-init-basis.yaml) instalieren und die programme sind alle erschienen.
 
@@ -51,7 +51,7 @@ Auch das log sah fehlerfrei aus.
 
 ![Nachweis](./img/log_output_claud_init.png)
 
-#### 2
+#### Unteraufgabe 2
 
 Ich konnte die Datei erfolgreich anpassen und auch die überprüfung ging gut.
 
@@ -69,7 +69,7 @@ und hat auch die ergebnisse des ausgeführten command drinnen.
 
 ![Nachweis](./img/file_check.png)
 
-### D
+### Aufgabe D
 
 Das neu erstellen von der VM hat mir ganze 5 Minuten und 9 Sekunden gekostet.
 
