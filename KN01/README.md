@@ -17,8 +17,8 @@ Mein Backend ist quemu, da ich auf Arch Linux bin.
 Ich habe 16 cores und 32GB ram auf meinem Laptop:
 
 ![Nachweis](./img/host_refferences.png)
-Beim Overcommitment von VMs kamen bei mir unterschiedliche Ergebnisse:
 
+eim Overcommitment von VMs kamen bei mir unterschiedliche Ergebnisse.
 Das CPU Overcommitment ging es und ich konnte eine 20 core cpu haben.
 ![Nachweis](./img/vm_cpu_overcommit.png)
 
@@ -53,7 +53,7 @@ Auch das log sah fehlerfrei aus.
 
 #### Unteraufgabe 2
 
-Ich konnte die Datei erfolgreich anpassen und auch die überprüfung ging gut.
+Ich konnte die Datei [cloud-init-kn01.yaml](./cloud-init-kn01.yaml) erfolgreich anpassen und auch die überprüfung ging gut.
 
 Der benutzter "Diego" wurde erfolgreich erstellt und hat sudo rechte sowie
 bash als default shell
