@@ -1,0 +1,19 @@
+#cloud-config
+package_update: true # update packages
+
+packages: # list of packages to install
+  - fastfetch # tool to look at system specs
+  - tree # tool to look at file directories with sub directories
+  - vim # best text editor that is open source
+
+users: #List of users which get created at first boot
+  - default # default user of the vm
+  - name: diego # name of the user
+    sudo: ALL=(ALL) NOPASSWD:ALL # sudo rights
+    shell: /bin/bash # shell to use
+    ssh_authorized_keys: # public keys allowed to log in as this user
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCe1QF87rzPZvcF+yKT81kLoW1jbx6HaTpc+e/p5u+RvvZPfzjiKuXMJgWCTu3ginyUE2bfEHtA20VyEm/2hqzjPPHeyqFJY+ROKOYqi+yQlROshhVb6JbiM/KUr+ko2HjPSSaiV2toq9aOlelQk+dTKmaxGco3UkL34ejNoZVcXy1RtJUDv8zN96Wpnnl/Mh1oouj6bYjIzFF3WH6uv93La4rymrY6BAlOdmeQaYF+hCsIIoLN5NmPLM3n33XTSI84FKZbu0dmKLnu0WVMCyWNd1YMvDKZMLWgkQV9lKeDYoTA/t+DG8CsDFnFjhZh3OYt8K3wq5I02aeDCnjk1kcP diego1
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0WGP1EZykEtv5YGC9nMiPFW3U3DmZNzKFO5nEu6uozEHh4jLZzPNHSrfFTuQ2GnRDSt+XbOtTLdcj26+iPNiFoFha42aCIzYjt6V8Z+SQ9pzF4jPPzxwXfDdkEWylgoNnZ+4MG1lNFqa8aO7F62tX0Yj5khjC0Bs7Mb2cHLx1XZaxJV6qSaulDuBbLYe8QUZXkMc7wmob3PM0kflfolR3LE7LResIHWa4j4FL6r5cQmFlDU2BDPpKMFMGUfRSFiUtaWBNXFOWHQBC2+uKmuMPYP4vJC9sBgqMvPN/X2KyemqdMvdKXnCfrzadHuSSJYEzD64Cve5Zl9yVvY4AqyBD yves.nussle@lehrperson-m346
+
+ssh_pwauth: false
+disable_root: true

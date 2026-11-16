@@ -1,0 +1,32 @@
+#cloud-config
+package_update: true # update packages
+
+packages: # list of packages to install
+  - fastfetch # tool to look at system specs
+  - tree # tool to look at file directories with sub directories
+  - vim # best text editor that is open source
+
+users: #List of users which get created at first boot
+  - default # default user of the vm
+  - name: diego # name of the user
+    sudo: ALL=(ALL) NOPASSWD:ALL # sudo rights
+    shell: /bin/bash # shell to use
+    ssh_authorized_keys: # public keys allowed to log in as this user
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCe1QF87rzPZvcF+yKT81kLoW1jbx6HaTpc+e/p5u+RvvZPfzjiKuXMJgWCTu3ginyUE2bfEHtA20VyEm/2hqzjPPHeyqFJY+ROKOYqi+yQlROshhVb6JbiM/KUr+ko2HjPSSaiV2toq9aOlelQk+dTKmaxGco3UkL34ejNoZVcXy1RtJUDv8zN96Wpnnl/Mh1oouj6bYjIzFF3WH6uv93La4rymrY6BAlOdmeQaYF+hCsIIoLN5NmPLM3n33XTSI84FKZbu0dmKLnu0WVMCyWNd1YMvDKZMLWgkQV9lKeDYoTA/t+DG8CsDFnFjhZh3OYt8K3wq5I02aeDCnjk1kcP diego1
+
+write_files: # list of files to write to
+  - path: /home/ubuntu/begruessung.txt # path to file
+    content:
+      | # list of content. content cant be commented but it's just the text that goes into the file
+      Diese Datei wurde von cloud-init erstellt. 
+      Niemand hat sie von Hand angelegt.
+  - path: /home/diego/info.txt # path to file
+    content:
+      | # list of content. content cant be commented but it's just the text that goes into the file
+      Name: Diego
+      Rechte: sudo
+      Lieblingsfarbe: Blau
+
+runcmd: # list of commands to run
+  - echo "Installation abgeschlossen am $(date)" >> /home/ubuntu/begruessung.txt
+  - 'echo "Zugewiesener RAM: $(free -h)" >> /home/diego/info.txt'
