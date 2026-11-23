@@ -1,0 +1,22 @@
+#cloud-config
+# KN02 C3: Mein persönliches Standard-Template für alle folgenden KNs.
+# Zusätzlich zu C1: Schlüssel der Lehrperson, Härtung (ssh_pwauth, disable_root) und package_update.
+
+package_update: true # [Zusatz 3] führt beim ersten Boot "apt-get update" aus: aktualisiert den Paketindex, damit "packages" die aktuellen Versionen findet
+
+packages: # Pakete, die beim ersten Boot per apt installiert werden
+  - fastfetch # zeigt System-Infos (OS, CPU, RAM) an
+  - tree # zeigt Verzeichnisse als Baumstruktur an
+  - vim # Texteditor
+
+users: # Benutzer, die beim ersten Boot angelegt werden
+  - default # behält den Standardbenutzer des Images (bei Ubuntu: "ubuntu")
+  - name: diego # mein Benutzer
+    sudo: ALL=(ALL) NOPASSWD:ALL # sudoers-Regel: darf alle Befehle ohne Passwort als root ausführen
+    shell: /bin/bash # Login-Shell
+    ssh_authorized_keys: # öffentliche Schlüssel für /home/diego/.ssh/authorized_keys (das Template enthält zwei)
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCe1QF87rzPZvcF+yKT81kLoW1jbx6HaTpc+e/p5u+RvvZPfzjiKuXMJgWCTu3ginyUE2bfEHtA20VyEm/2hqzjPPHeyqFJY+ROKOYqi+yQlROshhVb6JbiM/KUr+ko2HjPSSaiV2toq9aOlelQk+dTKmaxGco3UkL34ejNoZVcXy1RtJUDv8zN96Wpnnl/Mh1oouj6bYjIzFF3WH6uv93La4rymrY6BAlOdmeQaYF+hCsIIoLN5NmPLM3n33XTSI84FKZbu0dmKLnu0WVMCyWNd1YMvDKZMLWgkQV9lKeDYoTA/t+DG8CsDFnFjhZh3OYt8K3wq5I02aeDCnjk1kcP diego1 # mein öffentlicher Schlüssel (diego1)
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0WGP1EZykEtv5YGC9nMiPFW3U3DmZNzKFO5nEu6uozEHh4jLZzPNHSrfFTuQ2GnRDSt+XbOtTLdcj26+iPNiFoFha42aCIzYjt6V8Z+SQ9pzF4jPPzxwXfDdkEWylgoNnZ+4MG1lNFqa8aO7F62tX0Yj5khjC0Bs7Mb2cHLx1XZaxJV6qSaulDuBbLYe8QUZXkMc7wmob3PM0kflfolR3LE7LResIHWa4j4FL6r5cQmFlDU2BDPpKMFMGUfRSFiUtaWBNXFOWHQBC2+uKmuMPYP4vJC9sBgqMvPN/X2KyemqdMvdKXnCfrzadHuSSJYEzD64Cve5Zl9yVvY4AqyBD yves.nussle@lehrperson-m346 # [Zusatz 1] öffentlicher Schlüssel der Lehrperson, damit sie auf meine Instanzen zugreifen kann
+
+ssh_pwauth: false # [Zusatz 2] SSH-Login mit Passwort deaktivieren, nur noch Schlüssel-Login möglich (schützt vor Passwort-Brute-Force)
+disable_root: true # [Zusatz 2] direkter SSH-Login als root wird gesperrt; Admin-Arbeit nur über einen normalen Benutzer mit sudo

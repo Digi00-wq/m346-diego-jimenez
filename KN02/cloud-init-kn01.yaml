@@ -1,0 +1,34 @@
+#cloud-config
+# KN02 C1: cloud-init-kn01.yaml aus KN01, für AWS erweitert um meinen öffentlichen Schlüssel (diego1).
+# Wurde beim Erstellen der Instanz "KN02-aufgabe-c" ins Feld "User data" kopiert.
+
+package_update: true # führt beim ersten Boot "apt-get update" aus: aktualisiert den Paketindex (Liste der verfügbaren Pakete), nicht die installierten Pakete
+
+packages: # Pakete, die beim ersten Boot per apt installiert werden
+  - fastfetch # zeigt System-Infos (OS, CPU, RAM) an
+  - tree # zeigt Verzeichnisse als Baumstruktur an
+  - vim # Texteditor (meine Erweiterung aus KN01)
+
+users: # Benutzer, die beim ersten Boot angelegt werden
+  - default # behält den Standardbenutzer des Images (bei Ubuntu: "ubuntu"); er bekommt den Schlüssel aus dem GUI-Key-Pair (diego2)
+  - name: diego # zusätzlicher Benutzer "diego" (meine Erweiterung aus KN01)
+    sudo: ALL=(ALL) NOPASSWD:ALL # sudoers-Regel: darf alle Befehle als jeder Benutzer ohne Passwort ausführen
+    shell: /bin/bash # Login-Shell des Benutzers
+    ssh_authorized_keys: # öffentliche Schlüssel, die nach /home/diego/.ssh/authorized_keys geschrieben werden
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCe1QF87rzPZvcF+yKT81kLoW1jbx6HaTpc+e/p5u+RvvZPfzjiKuXMJgWCTu3ginyUE2bfEHtA20VyEm/2hqzjPPHeyqFJY+ROKOYqi+yQlROshhVb6JbiM/KUr+ko2HjPSSaiV2toq9aOlelQk+dTKmaxGco3UkL34ejNoZVcXy1RtJUDv8zN96Wpnnl/Mh1oouj6bYjIzFF3WH6uv93La4rymrY6BAlOdmeQaYF+hCsIIoLN5NmPLM3n33XTSI84FKZbu0dmKLnu0WVMCyWNd1YMvDKZMLWgkQV9lKeDYoTA/t+DG8CsDFnFjhZh3OYt8K3wq5I02aeDCnjk1kcP diego1 # öffentlicher Schlüssel von diego1 (mit ssh-keygen -y aus diego1.pem extrahiert)
+
+write_files: # Dateien, die beim ersten Boot geschrieben werden
+  - path: /home/ubuntu/begruessung.txt # Zielpfad der Datei
+    # "|" leitet einen mehrzeiligen Textblock ein: die eingerückten Zeilen werden wörtlich mit Zeilenumbrüchen übernommen
+    content: |
+      Diese Datei wurde von cloud-init erstellt. 
+      Niemand hat sie von Hand angelegt.
+  - path: /home/diego/info.txt # Zielpfad der Datei (meine Erweiterung aus KN01)
+    content: | # mehrzeiliger Textblock (siehe oben)
+      Name: Diego
+      Rechte: sudo
+      Lieblingsfarbe: Blau
+
+runcmd: # Befehle, die beim ersten Boot einmalig am Schluss ausgeführt werden (als root)
+  - echo "Installation abgeschlossen am $(date)" >> /home/ubuntu/begruessung.txt # hängt eine Zeile mit dem zur Laufzeit ausgewerteten Datum an
+  - 'echo "Zugewiesener RAM: $(free -h)" >> /home/diego/info.txt' # hängt die Ausgabe von free -h (RAM-Belegung) an (meine Erweiterung aus KN01)

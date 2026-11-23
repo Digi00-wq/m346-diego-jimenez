@@ -1,0 +1,38 @@
+#cloud-config
+# Erste Zeile muss genau "#cloud-config" sein, sonst erkennt cloud-init die User Data nicht als Konfiguration.
+# Template aus KN02 (KN02/cloud-init-template.yaml), in KN03 von OpenTofu als user_data übergeben.
+
+package_update: true # führt beim ersten Boot "apt-get update" aus: aktualisiert den Paketindex (Liste verfügbarer Pakete), nicht die installierten Pakete
+
+packages: # Pakete, die beim ersten Boot per apt installiert werden
+  - fastfetch # zeigt System-Infos (OS, CPU, RAM) an
+  - tree # zeigt Verzeichnisse als Baumstruktur an
+  - vim # Texteditor
+  - htop # interaktive Prozess- und Ressourcenanzeige (in B2 hinzugefügt -> Instanz wird ersetzt)
+
+users: # Benutzer, die beim ersten Boot angelegt werden
+  - default # behält den Standardbenutzer des Images (bei Ubuntu: "ubuntu")
+  - name: diego # zusätzlicher Benutzer "diego"
+    sudo: ALL=(ALL) NOPASSWD:ALL # sudoers-Regel: darf alle Befehle als jeder Benutzer ohne Passwort ausführen
+    shell: /bin/bash # Login-Shell des Benutzers
+    ssh_authorized_keys: # öffentliche Schlüssel, die in /home/diego/.ssh/authorized_keys geschrieben werden
+      # mein öffentlicher Schlüssel (privater Teil: ~/.ssh/diego1.pem auf meinem Laptop)
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCe1QF87rzPZvcF+yKT81kLoW1jbx6HaTpc+e/p5u+RvvZPfzjiKuXMJgWCTu3ginyUE2bfEHtA20VyEm/2hqzjPPHeyqFJY+ROKOYqi+yQlROshhVb6JbiM/KUr+ko2HjPSSaiV2toq9aOlelQk+dTKmaxGco3UkL34ejNoZVcXy1RtJUDv8zN96Wpnnl/Mh1oouj6bYjIzFF3WH6uv93La4rymrY6BAlOdmeQaYF+hCsIIoLN5NmPLM3n33XTSI84FKZbu0dmKLnu0WVMCyWNd1YMvDKZMLWgkQV9lKeDYoTA/t+DG8CsDFnFjhZh3OYt8K3wq5I02aeDCnjk1kcP diego1
+      # öffentlicher Schlüssel der Lehrperson
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0WGP1EZykEtv5YGC9nMiPFW3U3DmZNzKFO5nEu6uozEHh4jLZzPNHSrfFTuQ2GnRDSt+XbOtTLdcj26+iPNiFoFha42aCIzYjt6V8Z+SQ9pzF4jPPzxwXfDdkEWylgoNnZ+4MG1lNFqa8aO7F62tX0Yj5khjC0Bs7Mb2cHLx1XZaxJV6qSaulDuBbLYe8QUZXkMc7wmob3PM0kflfolR3LE7LResIHWa4j4FL6r5cQmFlDU2BDPpKMFMGUfRSFiUtaWBNXFOWHQBC2+uKmuMPYP4vJC9sBgqMvPN/X2KyemqdMvdKXnCfrzadHuSSJYEzD64Cve5Zl9yVvY4AqyBD yves.nussle@lehrperson-m346
+
+ssh_pwauth: false # SSH-Login mit Passwort deaktivieren, nur Schlüssel-Login erlaubt
+disable_root: true # direkter SSH-Login als root wird gesperrt
+
+write_files: # Dateien, die beim ersten Boot geschrieben werden
+  - path: /home/diego/info.txt # Zielpfad der Datei
+    owner: diego:diego # Besitzer der Datei (Benutzer:Gruppe), damit diego sie ohne sudo bearbeiten kann
+    defer: true # erst in der Schlussphase schreiben, wenn der Benutzer diego (users) schon existiert
+    # "|" leitet einen mehrzeiligen Textblock ein: die folgenden eingerückten Zeilen werden wörtlich (mit Zeilenumbrüchen) übernommen
+    content: |
+      Name: Diego
+      Rechte: sudo
+      Erstellt von: cloud-init (KN03, OpenTofu user_data)
+
+runcmd: # Befehle, die beim ersten Boot einmalig in der Schlussphase ausgeführt werden (als root)
+  - echo "Installation abgeschlossen am $(date)" > /home/diego/cloud-init-fertig.txt # neue Datei mit dem zur Laufzeit ausgewerteten Datum (Nachweis, dass runcmd lief)

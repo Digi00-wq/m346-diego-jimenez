@@ -1,0 +1,24 @@
+#cloud-config
+# cloud-init für den korrigierten Datenbank-Server (KN03 D, nicht ausgeführt)
+
+package_update: true # Paketindex aktualisieren (apt-get update)
+
+packages: # beim ersten Boot installieren
+  - mariadb-server # der eigentliche Datenbank-Dienst
+
+users:
+  - default # Standardbenutzer "ubuntu" behalten
+  - name: diego
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh_authorized_keys: # Login nur mit Schlüssel (kein Key Pair in der Konfiguration nötig)
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCe1QF87rzPZvcF+yKT81kLoW1jbx6HaTpc+e/p5u+RvvZPfzjiKuXMJgWCTu3ginyUE2bfEHtA20VyEm/2hqzjPPHeyqFJY+ROKOYqi+yQlROshhVb6JbiM/KUr+ko2HjPSSaiV2toq9aOlelQk+dTKmaxGco3UkL34ejNoZVcXy1RtJUDv8zN96Wpnnl/Mh1oouj6bYjIzFF3WH6uv93La4rymrY6BAlOdmeQaYF+hCsIIoLN5NmPLM3n33XTSI84FKZbu0dmKLnu0WVMCyWNd1YMvDKZMLWgkQV9lKeDYoTA/t+DG8CsDFnFjhZh3OYt8K3wq5I02aeDCnjk1kcP diego1
+
+ssh_pwauth: false # kein Passwort-Login
+disable_root: true # kein direkter root-Login
+
+runcmd:
+  # MariaDB lauscht standardmässig nur auf 127.0.0.1; für den Zugriff vom Webserver auf die private IP öffnen.
+  # Die Security Group (nur Webserver-SG auf 3306) bleibt die eigentliche Absicherung.
+  - sed -i 's/^bind-address.*/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
+  - systemctl restart mariadb

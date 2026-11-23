@@ -1,0 +1,9 @@
+# Provider-Plugins, die tofu init herunterlädt (gross, wird lokal neu erzeugt)
+.terraform/
+# State: enthält alle Ressourcen-Attribute im Klartext -> gehört nicht ins Repo
+terraform.tfstate
+terraform.tfstate.backup
+*.tfstate
+*.tfstate.*
+# Variablen-Dateien können Geheimnisse enthalten
+*.tfvars
