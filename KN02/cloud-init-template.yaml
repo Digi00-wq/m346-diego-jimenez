@@ -2,7 +2,7 @@
 # KN02 C3: Mein persönliches Standard-Template für alle folgenden KNs.
 # Zusätzlich zu C1: Schlüssel der Lehrperson, Härtung (ssh_pwauth, disable_root) und package_update.
 
-package_update: true # [Zusatz 3] führt beim ersten Boot "apt-get update" aus: aktualisiert den Paketindex, damit "packages" die aktuellen Versionen findet
+package_update: true # [Zusatz 3] führt beim ersten Boot "apt-get update" aus: lädt die aktuellen Paketlisten der Quellen (Paketindex) neu, installiert oder aktualisiert aber selbst keine Pakete
 
 packages: # Pakete, die beim ersten Boot per apt installiert werden
   - fastfetch # zeigt System-Infos (OS, CPU, RAM) an
